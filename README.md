@@ -48,4 +48,4 @@ This repository contains a detailed sales analysis for a coffee shop chain with 
 - SQL (Standard)
 - Snowflake Cloud Platform
 - MS Excel
-- Python (Google Colab)
+
