@@ -1,0 +1,125 @@
+SELECT * 
+
+FROM "TRANSACTIONS"."SALES"."COFFEE_SHOP" 
+
+  
+
+SELECT COUNT (transaction_id) AS Number_of_sales 
+
+FROM "TRANSACTIONS"."SALES"."COFFEE_SHOP" 
+
+  
+
+  
+
+SELECT sum(transaction_qty) as number_of_units_sold 
+
+From "TRANSACTIONS"."SALES"."COFFEE_SHOP" 
+
+  
+
+SELECT SUM (TRANSACTION_QTY*UNIT_PRICE) AS REVENUE_PER_TRANSACTION 
+
+FROM "TRANSACTIONS"."SALES"."COFFEE_SHOP" 
+
+  
+
+SELECT SUM (TRANSACTION_QTY*UNIT_PRICE) AS TOTAL_REVENUE, 
+
+PRODUCT_CATEGORY 
+
+FROM "TRANSACTIONS"."SALES"."COFFEE_SHOP" 
+
+GROUP BY PRODUCT_CATEGORY 
+
+ORDER BY TOTAL_REVENUE 
+
+  
+
+-- OPENING TIME 
+
+SELECT MIN(TRANSACTION_TIME) 
+
+FROM "TRANSACTIONS"."SALES"."COFFEE_SHOP" 
+
+  
+
+--CLOSING TIME 
+
+SELECT MAX(TRANSACTION_TIME) 
+
+FROM "TRANSACTIONS"."SALES"."COFFEE_SHOP" 
+
+  
+
+  
+
+SELECT  
+
+SUM (TRANSACTION_QTY*UNIT_PRICE) AS TOTAL_REVENUE, 
+
+sum(transaction_qty) as number_of_units_sold, 
+
+COUNT (transaction_id) AS Number_of_sales, 
+
+to_char (transaction_date, 'YYYYMMM') AS MONTH_ID, 
+
+MONTHNAME(TRANSACTION_DATE) AS MONTH_NAME, 
+
+DAYNAME(TRANSACTION_DATE) AS DAY_NAME, 
+
+CASE WHEN TRANSACTION_TIME BETWEEN '06:00:00' AND '11:59:59' THEN 'MORNING' 
+
+            WHEN TRANSACTION_TIME BETWEEN '12:00:00' AND '15:59:59' THEN 'AFTERNOON' 
+
+            WHEN TRANSACTION_TIME BETWEEN '16:00:00' AND '20:59:59' THEN 'EVENING' 
+
+            ELSE 'NIGHT' 
+
+            END AS TIME_BUCKET, 
+
+            CASE WHEN SUM (TRANSACTION_QTY*UNIT_PRICE) BETWEEN 0 AND 20 THEN 'LOW' 
+
+                WHEN SUM (TRANSACTION_QTY*UNIT_PRICE) BETWEEN 21 AND 40 THEN 'HIGH' 
+
+                WHEN SUM (TRANSACTION_QTY*UNIT_PRICE) BETWEEN 41 AND 60 THEN 'HIGH' 
+
+                ELSE 'VERY HIGH' 
+
+                END AS SPEND_BANDS, 
+
+             
+
+             
+
+            PRODUCT_CATEGORY, 
+
+            product_type, 
+
+            PRODUCT_DETAIL, 
+
+            STORE_LOCATION, 
+
+            
+
+  
+
+             
+
+            FROM "TRANSACTIONS"."SALES"."COFFEE_SHOP" 
+
+            GROUP BY TIME_BUCKET, 
+
+            PRODUCT_CATEGORY, 
+
+            product_type, 
+
+            PRODUCT_DETAIL, 
+
+            MONTH_ID, 
+
+            MONTH_NAME, 
+
+            DAY_NAME, 
+
+            STORE_LOCATION 
